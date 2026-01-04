@@ -1,0 +1,9 @@
+[package]
+name = "SignCheck"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+windows = { version = "0.58", features = ["Win32_Security_WinTrust", "Win32_Security_Cryptography", "Win32_Foundation", "Win32_Security_Cryptography_Catalog"] }
+chrono = "0.4"
+
