@@ -30,5 +30,10 @@ jobs:
         run: |
           pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\create_self_signed_and_sign.ps1
 
+      - name: Create and sign test PS1
+        shell: pwsh
+        run: |
+          pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\create_self_signed_ps1_and_sign.ps1
+
       - name: Run tests
         run: cargo test -- --nocapture

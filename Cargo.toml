@@ -1,7 +1,21 @@
 [package]
-name = "SignCheck"
+name = "signcheck"
 version = "0.1.0"
 edition = "2021"
+authors = ["Your Name <your.email@example.com>"]
+description = "Windows code signature verification library for PE files"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/yourusername/signcheck"
+keywords = ["windows", "signature", "authenticode", "verification", "security"]
+categories = ["os::windows-apis", "cryptography"]
+
+[lib]
+name = "signcheck"
+path = "src/lib.rs"
+
+[[bin]]
+name = "signcheck"
+path = "src/main.rs"
 
 [dependencies]
 windows = { version = "0.58", features = ["Win32_Security_WinTrust", "Win32_Security_Cryptography", "Win32_Foundation", "Win32_Security_Cryptography_Catalog"] }
