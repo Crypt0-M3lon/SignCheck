@@ -1,8 +1,8 @@
-use std::env;
 use signcheck::{
-    check_catalog_signatures, check_embedded_signatures, extract_signer_info,
-    SignatureStatus, VerificationResult,
+    check_catalog_signatures, check_embedded_signatures, extract_signer_info, SignatureStatus,
+    VerificationResult,
 };
+use std::env;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -81,7 +81,10 @@ fn main() {
             return;
         }
         _ => {
-            println!("{} has an unrecognized signature status.", final_result.file_path);
+            println!(
+                "{} has an unrecognized signature status.",
+                final_result.file_path
+            );
             return;
         }
     }

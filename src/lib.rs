@@ -27,9 +27,8 @@ pub mod win32_guards;
 mod tests;
 
 // Re-export commonly used types for convenience
-pub use error::{TrustError, hr_to_trust_error};
-pub use signer_info::{SignerInfo, extract_signer_info};
+pub use error::{hr_to_trust_error, TrustError};
+pub use signer_info::{extract_signer_info, SignerInfo};
 pub use verification::{
-    SignatureStatus, VerificationResult,
-    check_embedded_signatures, check_catalog_signatures,
+    check_catalog_signatures, check_embedded_signatures, SignatureStatus, VerificationResult,
 };

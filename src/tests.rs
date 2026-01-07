@@ -105,7 +105,10 @@ mod tests {
         let result = check_embedded_signatures(path);
         match result.status {
             SignatureStatus::VerificationFailed(TrustError::UntrustedRoot) => {}
-            _ => panic!("Expected CERT_E_UNTRUSTEDROOT for self-signed PS1, got: {:?}", result.status),
+            _ => panic!(
+                "Expected CERT_E_UNTRUSTEDROOT for self-signed PS1, got: {:?}",
+                result.status
+            ),
         }
     }
 }

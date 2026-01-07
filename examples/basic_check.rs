@@ -3,7 +3,9 @@
 //! This example demonstrates how to use the signcheck library to verify
 //! both embedded and catalog-based signatures on Windows PE files.
 
-use signcheck::{check_embedded_signatures, check_catalog_signatures, extract_signer_info, SignatureStatus};
+use signcheck::{
+    check_catalog_signatures, check_embedded_signatures, extract_signer_info, SignatureStatus,
+};
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
@@ -29,7 +31,7 @@ fn main() {
 
     if is_embedded_valid || is_catalog_valid {
         println!("\n✓ File is signed and valid");
-        
+
         let cert_path = if is_catalog_valid {
             &catalog.cert_path
         } else {
