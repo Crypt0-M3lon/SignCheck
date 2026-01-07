@@ -9,6 +9,8 @@ on:
 jobs:
   build-and-test-windows:
     runs-on: windows-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -46,3 +48,13 @@ jobs:
 
       - name: Run tests
         run: cargo test -- --nocapture
+
+      - name: Publish GitHub Release (latest)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: latest
+          name: Latest
+          body: "Automated release from main branch"
+          files: |
+            target/release/signcheck.exe
