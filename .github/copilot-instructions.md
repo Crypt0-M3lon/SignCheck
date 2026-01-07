@@ -54,6 +54,9 @@ Short, actionable guidance to help an AI coding assistant get productive quickly
   - Be formatted with `cargo fmt --all`
   - Compile cleanly under `cargo clippy --all -- -D warnings` (no warnings allowed)
   - Pass all tests with `cargo test`
+  - Ensure any generated code is validated (tests) and formatted before submission
+
+- **Public API safety**: Public functions must be safe by default; do not expose `unsafe` in the public surface. Constrain raw handles with safer wrappers (e.g., `NonNull`) and document safety invariants on internal unsafe blocks.
 
 - **Tests requirement**: Any change must preserve existing tests. Only modify tests when user explicitly requests updates. Current tests cover:
   - Firefox embedded signature validation
