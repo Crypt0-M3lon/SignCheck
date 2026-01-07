@@ -2,7 +2,7 @@
 // These automatically clean up resources when dropped, ensuring exception-safe code
 
 use std::ops::Deref;
-use std::ptr;
+use std::ptr::{self, NonNull};
 use windows::core::*;
 use windows::Win32::Foundation::*;
 use windows::Win32::Security::Cryptography::Catalog::*;
@@ -19,10 +19,11 @@ impl CertContextHandle {
     }
 
     /// Initializes a certificate context by extracting the signer from a crypto message
-    pub fn from_crypto_message(h_msg: *mut std::ffi::c_void) -> Result<Self> {
+    pub fn from_crypto_message(h_msg: NonNull<std::ffi::c_void>) -> Result<Self> {
         let mut signer_cert: *mut CERT_CONTEXT = ptr::null_mut();
-        let result =
-            unsafe { CryptMsgGetAndVerifySigner(h_msg, None, 0, Some(&mut signer_cert), None) };
+        let result = unsafe {
+            CryptMsgGetAndVerifySigner(h_msg.as_ptr(), None, 0, Some(&mut signer_cert), None)
+        };
 
         match result {
             Ok(_) => Ok(CertContextHandle(signer_cert)),

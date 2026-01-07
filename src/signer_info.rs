@@ -92,10 +92,8 @@ pub fn extract_signer_info(path: &str) -> Option<SignerInfo> {
     let _msg_guard = CryptMsgHandle::new(h_msg);
 
     // Get the signer certificate - guard initializes the certificate context
-    let cert_guard = match CertContextHandle::from_crypto_message(h_msg) {
-        Ok(guard) => guard,
-        Err(_) => return None,
-    };
+    let cert_guard = std::ptr::NonNull::new(h_msg)
+        .and_then(|h| CertContextHandle::from_crypto_message(h).ok())?;
 
     // Get the subject name
     let cert_info = unsafe { (*cert_guard.as_ptr()).pCertInfo };
