@@ -19,6 +19,15 @@ jobs:
           toolchain: stable
           override: true
 
+      - name: Add clippy and rustfmt components
+        run: rustup component add clippy rustfmt
+
+      - name: Format check
+        run: cargo fmt --all -- --check
+
+      - name: Clippy
+        run: cargo clippy --all -- -D warnings
+
       - name: Build project
         run: cargo build --release
 
