@@ -1,4 +1,4 @@
-use crate::utils::filetime_to_datetime;
+use crate::utils::{filetime_to_datetime, to_wide_null_terminated};
 use crate::win32_guards::*;
 use chrono::{DateTime, Utc};
 use std::ptr;
@@ -51,7 +51,7 @@ impl std::fmt::Display for SignerInfo {
 /// This function uses CryptQueryObject to open the file's signature and extract
 /// the signer certificate information. All resources are properly cleaned up.
 pub fn extract_signer_info(path: &str) -> Option<SignerInfo> {
-    let wide_path: Vec<u16> = path.encode_utf16().chain(std::iter::once(0)).collect();
+    let wide_path: Vec<u16> = to_wide_null_terminated(path);
 
     let mut h_store = HCERTSTORE(ptr::null_mut());
     let mut h_msg: *mut std::ffi::c_void = ptr::null_mut();

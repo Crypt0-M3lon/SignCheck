@@ -69,13 +69,6 @@ fn main() {
             println!("{} is not signed.", final_result.file_path);
             return;
         }
-        SignatureStatus::SignatureStripped => {
-            println!(
-                "{} WARNING: Signature appears to have been stripped! Security directory exists but signature data is invalid.",
-                final_result.file_path
-            );
-            return;
-        }
         SignatureStatus::Unknown => {
             println!("{} signature status is unknown.", final_result.file_path);
             return;

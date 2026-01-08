@@ -1,6 +1,12 @@
 use chrono::{DateTime, Utc};
 use windows::Win32::Foundation::FILETIME;
 
+/// Converts a Rust `&str` to a Windows wide string (`Vec<u16>`) with a
+/// trailing null terminator suitable for passing to Win32 APIs.
+pub fn to_wide_null_terminated(s: &str) -> Vec<u16> {
+    s.encode_utf16().chain(std::iter::once(0)).collect()
+}
+
 /// Converts a Windows FILETIME structure to a DateTime<Utc>
 ///
 /// # Arguments
