@@ -1,5 +1,26 @@
 use std::fmt;
 
+// HRESULT codes from Windows SDK (WinTrust/Crypto APIs)
+// Using hex format for easier verification against Microsoft documentation
+const TRUST_E_PROVIDER_UNKNOWN: i32 = 0x800B_0001_u32 as i32;
+const TRUST_E_SUBJECT_NOT_TRUSTED: i32 = 0x800B_0004_u32 as i32;
+const TRUST_E_SUBJECT_FORM_UNKNOWN: i32 = 0x800B_0002_u32 as i32;
+const TRUST_E_NOSIGNATURE: i32 = 0x800B_0100_u32 as i32;
+const TRUST_E_BAD_DIGEST: i32 = 0x800B_0104_u32 as i32;
+const TRUST_E_TIME_STAMP: i32 = 0x8009_6005_u32 as i32;
+const CERT_E_CRITICAL: i32 = 0x800B_0105_u32 as i32;
+const CERT_E_EXPIRED: i32 = 0x800B_0101_u32 as i32;
+const CERT_E_REVOKED: i32 = 0x800B_010C_u32 as i32;
+const CERT_E_UNTRUSTEDROOT: i32 = 0x800B_0109_u32 as i32;
+const CRYPT_E_SECURITY_SETTINGS: i32 = 0x8009_2026_u32 as i32;
+const CERT_E_CHAINING: i32 = 0x800B_010A_u32 as i32;
+const CERT_E_UNTRUSTEDTESTROOT: i32 = 0x800B_010D_u32 as i32;
+const CERT_E_WRONG_USAGE: i32 = 0x800B_0110_u32 as i32;
+const CRYPT_E_NO_REVOCATION_CHECK: i32 = 0x8009_2012_u32 as i32;
+const CRYPT_E_REVOCATION_OFFLINE: i32 = 0x8009_2013_u32 as i32;
+const CERT_E_CN_NO_MATCH: i32 = 0x800B_010F_u32 as i32;
+const CRYPT_E_FILE_ERROR: i32 = 0x8009_2003_u32 as i32;
+
 /// Represents errors that can occur during signature verification
 #[derive(Debug, PartialEq, Clone)]
 pub enum TrustError {
@@ -59,24 +80,24 @@ impl fmt::Display for TrustError {
 /// A TrustError variant corresponding to the HRESULT, or Unknown if not recognized
 pub fn hr_to_trust_error(hr: i32) -> TrustError {
     match hr {
-        -2146869247 => TrustError::ProviderUnknown, // TRUST_E_PROVIDER_UNKNOWN
-        -2146762751 => TrustError::SubjectNotTrusted, // TRUST_E_SUBJECT_NOT_TRUSTED
-        -2146869246 => TrustError::SubjectFormUnknown, // TRUST_E_SUBJECT_FORM_UNKNOWN
-        -2146762496 => TrustError::NoSignature,     // TRUST_E_NOSIGNATURE
-        -2146869244 => TrustError::BadDigest,       // TRUST_E_BAD_DIGEST
-        -2146869243 => TrustError::TimeStamp,       // TRUST_E_TIME_STAMP
-        -2146762491 => TrustError::Critical,        // CERT_E_CRITICAL
-        -2146762495 => TrustError::Expired,         // CERT_E_EXPIRED
-        -2146762484 => TrustError::Revoked,         // CERT_E_REVOKED
-        -2146762487 => TrustError::UntrustedRoot,   // CERT_E_UNTRUSTEDROOT
-        -2146893819 => TrustError::SecuritySettings, // CRYPT_E_SECURITY_SETTINGS
-        -2146762485 => TrustError::Chaining,        // CERT_E_CHAINING
-        -2146762483 => TrustError::UntrustedTestRoot, // CERT_E_UNTRUSTEDTESTROOT
-        -2146762482 => TrustError::WrongUsage,      // CERT_E_WRONG_USAGE
-        -2146885616 => TrustError::NoRevocationCheck, // CRYPT_E_NO_REVOCATION_CHECK
-        -2146885615 => TrustError::RevocationOffline, // CRYPT_E_REVOCATION_OFFLINE
-        -2146762481 => TrustError::CNNoMatch,       // CERT_E_CN_NO_MATCH
-        -2146885629 => TrustError::FileError,       // CRYPT_E_FILE_ERROR
+        TRUST_E_PROVIDER_UNKNOWN => TrustError::ProviderUnknown,
+        TRUST_E_SUBJECT_NOT_TRUSTED => TrustError::SubjectNotTrusted,
+        TRUST_E_SUBJECT_FORM_UNKNOWN => TrustError::SubjectFormUnknown,
+        TRUST_E_NOSIGNATURE => TrustError::NoSignature,
+        TRUST_E_BAD_DIGEST => TrustError::BadDigest,
+        TRUST_E_TIME_STAMP => TrustError::TimeStamp,
+        CERT_E_CRITICAL => TrustError::Critical,
+        CERT_E_EXPIRED => TrustError::Expired,
+        CERT_E_REVOKED => TrustError::Revoked,
+        CERT_E_UNTRUSTEDROOT => TrustError::UntrustedRoot,
+        CRYPT_E_SECURITY_SETTINGS => TrustError::SecuritySettings,
+        CERT_E_CHAINING => TrustError::Chaining,
+        CERT_E_UNTRUSTEDTESTROOT => TrustError::UntrustedTestRoot,
+        CERT_E_WRONG_USAGE => TrustError::WrongUsage,
+        CRYPT_E_NO_REVOCATION_CHECK => TrustError::NoRevocationCheck,
+        CRYPT_E_REVOCATION_OFFLINE => TrustError::RevocationOffline,
+        CERT_E_CN_NO_MATCH => TrustError::CNNoMatch,
+        CRYPT_E_FILE_ERROR => TrustError::FileError,
         _ => TrustError::Unknown(hr),
     }
 }
